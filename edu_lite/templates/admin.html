@@ -1,0 +1,54 @@
+<!-- extend base layout -->
+{% extends"bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+
+<p style="color:green">{{ message }}</p>
+
+
+<div class="container">
+<h3>Загрузка вопросов</h3>
+<form action="" method="POST" enctype="multipart/form-data">
+    {{ form_file.hidden_tag() }}
+    <p>
+        <b>Тест</b><br>
+        {{ form_file.test() }}
+        {{ wtf.form_field(form_file.file) }}
+    </p>
+    <p>
+        <input type="submit" value="Загрузить">
+    </p>
+</form>
+</div>
+<hr>
+<div class="container">
+<h3>Добавить тест</h3>
+<form action="" method="POST" name="test">
+    {{ form_new_test.hidden_tag() }}
+    <p>
+        {{ wtf.form_field(form_new_test.test_name) }}
+    </p>
+    <p>
+        <input type="submit" value="Добавить">
+    </p>
+</form>
+</div>
+<hr>
+<div class="container">
+<h3>Зарегистрировать пользователя</h3>
+<form action="" method="POST" name="registration">
+    {{ form_reg.hidden_tag() }}
+    <p>
+        {{ wtf.form_field(form_reg.name) }}<br>
+        {{ wtf.form_field(form_reg.password) }}<br>
+    </p>
+    <p>{{ wtf.form_field(form_reg.password_repeat) }} </p>
+    <p><input type="submit" value="Зарегистрировать"></p>
+</form>
+</div>
+<hr>
+
+{% endblock %}
+
+

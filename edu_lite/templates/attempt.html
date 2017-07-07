@@ -1,0 +1,71 @@
+{% extends"bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block content %}
+<h1>{{ test_name }}</h1>
+<script type="text/javascript">
+
+function checkInputs(form){
+    var questList = [];
+    var answList = [];
+    var questions = document.getElementsByTagName('ul');
+ 
+    for(var i=0; i<questions.length; i++){
+        answers = questions[i].getElementsByTagName('input');
+        for(var j=0; j<answers.length; j++){
+            if(answers[j].checked){
+                answList.push(answers[j].id);
+            }
+        } 
+        if(answList.length > 0){
+            questList.push(questions[i]);
+        }
+        answList = [];
+    }
+    if(questList.length == 0){
+        alert('Ты что, дебил??');
+    var questList = [];
+    return false;
+    }
+    else if(questList.length < questions.length){
+        alert('Ты что, дебил??');
+    var questList = [];
+    return false;
+    }
+    else {
+        document.getElementById("attempt").submit()
+        return true;
+    }
+}
+
+</script>
+
+<style> label{ max-width:95%;vertical-align:top} input{vertical-align:top}</style>
+
+<form id="attempt" action="" method="POST" name="answer">
+    
+        {{ form.hidden_tag() }}
+            
+            {% for item in questions %}
+                
+                {% if item[2] == 0 %}
+                    {{ form.add_choices(item[0]) }}
+                    <h3>{{ item[1] }}</h3>
+                    <p>{{ form.answer() }}</p>
+                {% else %}
+                    {{ form.add_multiple_choices(item[0]) }}
+                    <h3>{{ item[1] }}</h3>
+                    {{ form.multi_answer() }}
+                {% endif %}
+                  
+            {% endfor %}
+    
+        <p>
+            <input type="button" value="Отправить" onclick="checkInputs(form);">
+        </p>
+    
+</form>
+
+
+{% endblock %}

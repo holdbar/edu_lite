@@ -1,0 +1,20 @@
+<!-- extend base layout -->
+{% extends"bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<h1>Register</h1>
+<div class="container">
+<form action="" method="POST" name="registration">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ wtf.form_field(form.name) }}<br>
+        {{ wtf.form_field(form.password) }}<br>
+    </p>
+    <p>{{ wtf.form_field(form.password_repeat) }} </p>
+    <p><input type="submit" value="Register"></p>
+</form>
+</div>
+{% endblock %}
+
+

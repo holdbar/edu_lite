@@ -1,0 +1,15 @@
+?It's a question with one correct answer:
+{
+incorrect answer
+incorrect answer
+=correct answer
+incorrect answer
+}
+#It's a question with multiple correct answers:
+{
+incorrect answer
+=correct answer
+=correct answer
+incorrect answer
+=correct answer
+}

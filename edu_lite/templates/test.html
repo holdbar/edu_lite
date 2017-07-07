@@ -1,0 +1,27 @@
+<!-- extend base layout -->
+{% extends"bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+
+<div class="container">
+<h1>Тестирование</h1>
+<form action="" method="POST" name="test">
+   {{ form.hidden_tag() }}
+    <p>
+        Выбери испытание:<br>
+        {{ form.test() }}<br>
+    </p>
+    Приготовься<br>
+    <img src="static/img/uranus.jpg" alt="Prepare Uranus"> 
+    <p>
+        <input type="submit" value="Начать">
+    </p>
+</form>
+</div>
+<hr>
+
+
+
+
+{% endblock %}
