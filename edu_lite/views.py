@@ -16,7 +16,7 @@ from .manage import add_questions
 @app.route('/test', methods=['GET', 'POST'])
 @login_required
 def test():
-"""Test view."""   
+    """Test view."""   
 
     form = TestForm()
     names = [(t.id,t.name) for t in Tests.query.all()]
@@ -40,7 +40,7 @@ def test():
 @app.route('/test/attempt', methods=['GET', 'POST'])
 @login_required
 def attempt():
-"""Attempt view."""
+    """Attempt view."""
 
     form = AttemptForm()
     questions = [(q.id,q.value,q.ismultiple) for q in Questions.query.filter_by(test_id=session['test_id']).all()]
@@ -77,7 +77,7 @@ def attempt():
 @app.route('/test/results')
 @login_required
 def results():
-"""Results view."""
+    """Results view."""
 
     results_list = []    
     questions = [(q.id,q.value,q.ismultiple) for q in Questions.query.filter_by(test_id=session['test_id']).all()]  
@@ -119,9 +119,9 @@ def results():
 
 @app.route('/logout')
 @login_required
-"""Logout view."""
-
 def logout():
+    """Logout view."""
+
     logout_user()
     return 'Asta la vista, Baby!'
 
@@ -131,9 +131,9 @@ def logout():
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
-"""Login view."""
-
 def login():
+    """Login view."""
+
     form = LoginForm()
     if request.method == "POST" and form.validate_on_submit():
         form_name = form.name.data
@@ -157,7 +157,7 @@ def login():
 @app.route('/registration', methods=['GET', 'POST'])
 @login_required
 def registration():
-"""Registration view."""
+    """Registration view."""
 
     form = RegistrationForm()
     if request.method == "POST" and form.validate_on_submit():
@@ -177,7 +177,7 @@ def registration():
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
-"""Admin view."""
+    """Admin view."""
 
     student = Students.query.get(session['user_id'])
     if student.isadmin != 1:

@@ -47,4 +47,3 @@ def add_questions(test_id, file_name):
                 answer = models.Answers(value=i,question_id=question.id,iscorrect=0)
                 db.session.add(answer)
                 db.session.commit()
-
