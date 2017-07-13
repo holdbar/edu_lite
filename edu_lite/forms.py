@@ -1,6 +1,7 @@
 import re
 from flask_wtf import Form
 from wtforms import BooleanField, StringField, PasswordField, FileField, SelectField, RadioField, SelectMultipleField, widgets
+from wtforms.fields.html5 import DateField
 from wtforms.validators import Email, DataRequired, EqualTo, ValidationError, InputRequired, Required
 from edu_lite import db
 from .models import Students, Answers, Questions, Tests, Attempts
@@ -102,6 +103,13 @@ class AttemptForm(Form):
         self.multi_answer.id = question_id
         self.multi_answer.name= str(question_id)
         return ''
+
+
+class PastAttemptsForm(TestForm):
+    """Past attempts form."""
+
+    student = SelectField('Студент', choices=[])
+    date = DateField('Дата', format="%m/%d/%Y")
 
 
 

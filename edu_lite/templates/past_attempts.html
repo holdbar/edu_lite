@@ -1,0 +1,36 @@
+<!-- extend base layout -->
+{% extends"bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block content %}
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+	$( document ).ready(function() {
+		$( ".datepicker" ).datepicker();
+  	} );
+</script>
+
+<div class="container">
+<h1>Прошедшие попытки</h1>
+<form action="" method="POST" name="test">
+   {{ form.hidden_tag() }}
+    <p>
+        Выберите тест:<br>
+        {{ form.test() }}<br>
+        Выберите студента:<br>
+        {{ form.student() }}<br>
+        Выберите дату:<br>
+        {{ form.date(class="datepicker") }}
+    </p>
+</form>
+</div>
+<hr>
+
+
+{% endblock %}

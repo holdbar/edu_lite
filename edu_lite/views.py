@@ -5,7 +5,7 @@ from passlib.hash import sha256_crypt
 
 from flask import render_template, flash, request, redirect, session
 from edu_lite import app, db
-from .forms import LoginForm, RegistrationForm, TestForm, AttemptForm, FileForm, NewTestForm
+from .forms import LoginForm, RegistrationForm, TestForm, AttemptForm, FileForm, NewTestForm, PastAttemptsForm
 from .models import Tests, Students, Questions, Answers, Attempts, Results
 from flask_login import login_user, logout_user, login_required
 from werkzeug import secure_filename
@@ -19,8 +19,8 @@ def test():
     """Test view."""   
 
     form = TestForm()
-    names = [(t.id,t.name) for t in Tests.query.all()]
-    form.test.choices = names
+    tests = [(t.id,t.name) for t in Tests.query.all()]
+    form.test.choices = tests
     if request.method == "POST":
         session['test_id'] = form.test.data
         session['starttime'] = datetime.now()
@@ -114,6 +114,22 @@ def results():
                             results=results_list)
 
 
+@app.route('/past_attempts')
+@login_required
+def past_attempts():
+    """Past attempts view."""
+
+    form = PastAttemptsForm()
+    tests = [(t.id,t.name) for t in Tests.query.all()]
+    form.test.choices = tests
+    students = [(s.id,s.name) for s in Students.query.all()]
+    form.student.choices = students
+    return render_template('past_attempts.html',
+                            title='Прошлые попытки',
+                            form=form)
+
+
+
 
 
 
@@ -123,7 +139,7 @@ def logout():
     """Logout view."""
 
     logout_user()
-    return 'Asta la vista, Baby!'
+    return redirect('/login')
 
 
 
