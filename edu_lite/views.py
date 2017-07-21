@@ -246,3 +246,4 @@ def admin():
                                form_new_test=form_new_test,
                                form_reg=form_reg,
                                form_file=form_file)
+        
