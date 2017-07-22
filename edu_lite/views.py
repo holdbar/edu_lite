@@ -1,9 +1,9 @@
 import re
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from passlib.hash import sha256_crypt
 
-from flask import render_template, flash, request, redirect, session
+from flask import render_template, flash, request, redirect, session, jsonify
 from edu_lite import app, db
 from .forms import LoginForm, RegistrationForm, TestForm, AttemptForm, FileForm, NewTestForm, PastAttemptsForm
 from .models import Tests, Students, Questions, Answers, Attempts, Results
@@ -130,7 +130,21 @@ def past_attempts():
 
 
 
+@app.route('/get_past_attempts', methods=['POST'])
+@login_required
+def get_past_attempts(test_id, student_id, test_date):
+    """Util view for AJAX load of past attempts."""
 
+    attempts_dict = {}
+    test_day = datetime.strptime(test_date, '%Y-%m-%d')
+    next_day = datetime.strptime(test_date + timedelta(days='1'), '%Y-%m-%d')
+    attempts = [(a.id, a.starttime, a.endtime) for a in Attempts.filter_by(test_id=test_id,
+                                                                           student_id=student_id,
+                                                                           starttime >= test_day,
+                                                                           endtime <= next_day).all()]
+    for attempt in attempts:
+        attempts_dict[str(attempt[0])] = {'start': attempt[1], 'end': attempt[2]}
+    return jsonify(attempts_dict)
 
 
 @app.route('/logout')

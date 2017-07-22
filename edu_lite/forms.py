@@ -109,7 +109,7 @@ class PastAttemptsForm(TestForm):
     """Past attempts form."""
 
     student = SelectField('Студент', choices=[])
-    date = DateField('Дата', format="%m/%d/%Y")
+    date = DateField('Дата', format="%Y-%m-%d")
 
 
 
