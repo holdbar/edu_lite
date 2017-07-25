@@ -132,16 +132,19 @@ def past_attempts():
 
 @app.route('/get_past_attempts', methods=['POST'])
 @login_required
-def get_past_attempts(test_id, student_id, test_date):
+def get_past_attempts():
     """Util view for AJAX load of past attempts."""
 
+    test_id = request.form['test']
+    student_id = request.form['student']
+    test_date = request.form['date']
     attempts_dict = {}
     test_day = datetime.strptime(test_date, '%Y-%m-%d')
     next_day = datetime.strptime(test_date + timedelta(days='1'), '%Y-%m-%d')
-    attempts = [(a.id, a.starttime, a.endtime) for a in Attempts.filter_by(test_id=test_id,
-                                                                           student_id=student_id,
-                                                                           starttime >= test_day,
-                                                                           endtime <= next_day).all()]
+    attempts = [(a.id, a.starttime, a.endtime) for a in Attempts.filter(Attempts.test_id==test_id,
+                                                                        Attempts.student_id==student_id,
+                                                                        Attempts.starttime>=test_day,
+                                                                        Attempts.endtime <= next_day).all()]
     for attempt in attempts:
         attempts_dict[str(attempt[0])] = {'start': attempt[1], 'end': attempt[2]}
     return jsonify(attempts_dict)

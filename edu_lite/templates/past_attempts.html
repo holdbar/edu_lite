@@ -6,16 +6,32 @@
 {% block content %}
 
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/static/style.css">
+ <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <script>
 	$( document ).ready(function() {
 		$( ".datepicker" ).datepicker();
   	} );
 </script>
-
+<script type="text/javascript">
+    $(function() {
+        $('button').click(function() {
+            $.ajax({
+                url: '/get_past_attempts',
+                data: $('form').serialize(),
+                type: 'POST',
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script> 
 <div class="container">
 <h1>Прошедшие попытки</h1>
 <form action="" method="POST" name="test">
@@ -29,7 +45,7 @@
         {{ form.date(class="datepicker") }}
     </p>
     <p>
-        <input type="submit" value="Отфильтровать">
+        <button class="filter" type="button">Отфильтровать</button>
     </p>
 </form>
 </div>
