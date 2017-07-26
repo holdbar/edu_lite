@@ -1,6 +1,6 @@
 import re
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from passlib.hash import sha256_crypt
 
 from flask import render_template, flash, request, redirect, session, jsonify
@@ -140,11 +140,15 @@ def get_past_attempts():
     test_date = request.form['date']
     attempts_dict = {}
     test_day = datetime.strptime(test_date, '%Y-%m-%d')
-    next_day = datetime.strptime(test_date + timedelta(days='1'), '%Y-%m-%d')
-    attempts = [(a.id, a.starttime, a.endtime) for a in Attempts.filter(Attempts.test_id==test_id,
-                                                                        Attempts.student_id==student_id,
-                                                                        Attempts.starttime>=test_day,
-                                                                        Attempts.endtime <= next_day).all()]
+    next_day = test_day + timedelta(days=1)
+    #attempts = [(a.id, a.starttime, a.endtime) for a in Attempts.filter(Attempts.test_id==test_id,
+    #                                                                    Attempts.student_id==student_id,
+    #                                                                    Attempts.starttime>=test_day,
+    #                                                                    Attempts.endtime <= next_day).all()]
+    attempts = [(a.id, a.starttime, a.endtime) for a in db.session.query(Attempts).filter(Attempts.test_id==test_id,
+                                                                                   Attempts.student_id==student_id,
+                                                                                   Attempts.starttime>=test_day,
+                                                                                   Attempts.endtime <= next_day).all()]
     for attempt in attempts:
         attempts_dict[str(attempt[0])] = {'start': attempt[1], 'end': attempt[2]}
     return jsonify(attempts_dict)

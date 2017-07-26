@@ -6,24 +6,25 @@
 {% block content %}
 
 
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.2/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/static/style.css">
- <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<script>
-	$( document ).ready(function() {
-		$( ".datepicker" ).datepicker();
-  	} );
-</script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
 <script type="text/javascript">
     $(function() {
-        $('button').click(function() {
+        $('.filter').click(function() {
             $.ajax({
                 url: '/get_past_attempts',
                 data: $('form').serialize(),
                 type: 'POST',
+                dataType: "html",
                 success: function(response) {
-                    console.log(response);
+                    console.log(response)
+                    var results = JSON.parse(response)
+                    var output = ''
+                    $.each(results, function(index, value) {
+                        output = output +'<br>' + '<br>' + value.start + '<br>' + value.end
+                    });
+                    $('#results').html(output); 
                 },
                 error: function(error) {
                     console.log(error);
@@ -50,6 +51,10 @@
 </form>
 </div>
 <hr>
+<div class="container">
+    <p>Прошедшие попытки:</p>
+    <p id="results"></p>
+</div>
 
 
 {% endblock %}
